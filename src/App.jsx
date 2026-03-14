@@ -1,272 +1,429 @@
+import { useState, useEffect } from "react";
 import "./index.css";
+
+// ─── VERİ ───────────────────────────────────────────────────────────────────
+
+const TRIP_START = new Date("2026-03-19T23:00:00");
 
 const tripDays = [
   {
+    id: 0,
     date: "19 Mart Çarşamba",
+    short: "19 Mar",
     badge: "Varış Gecesi",
+    emoji: "✈️",
     title: "Esentepe'ye geçiş ve hafif başlangıç",
-    time: "23:00 varış sonrası",
+    time: "23:00 varış",
+    drive: "Ercan Havalimanı → Esentepe ≈ 40 dk",
     plan: [
-      "Havalimanından kiralık aracı alıp Esentepe'deki otele geç",
-      "Check-in sonrası kısa sahil yürüyüşü veya otelde dinlenme",
-      "Geç saate kalmadan hafif bir atıştırmalık / içki"
+      "Ercan Havalimanı'ndan kiralık aracı teslim al",
+      "Esentepe otelinize ~40 dakika sürüş",
+      "Check-in, bagajları bırak, odaya yerleş",
+      "The Coconut veya Korineum'da geç saatte içki"
     ],
     food: [
-      { name: "The Coconut", map: "https://www.google.com/maps/search/?api=1&query=The+Coconut+Esentepe+Cyprus" },
-      { name: "Korineum Golf Club Restaurant", map: "https://www.google.com/maps/search/?api=1&query=Korineum+Golf+Club+Restaurant+Esentepe+Cyprus" }
+      { name: "The Coconut", map: "https://www.google.com/maps/search/?api=1&query=The+Coconut+Bar+Esentepe+Cyprus" },
+      { name: "Korineum Golf Bar", map: "https://www.google.com/maps/search/?api=1&query=Korineum+Golf+Club+Esentepe+Cyprus" }
     ],
-    notes: "İlk gece boş tutuldu. Asıl tempo ertesi gün başlıyor."
+    notes: "İlk gece hafif tut. Asıl tempo ertesi sabah başlıyor.",
+    tip: "Havalimanında TRY bozdur — exchange büfeleri iyi kur veriyor.",
+    accent: "#6366f1"
   },
   {
+    id: 1,
     date: "20 Mart Perşembe",
+    short: "20 Mar",
     badge: "Girne + Casino",
-    title: "Liman, tarih, manzara ve akşam casino",
+    emoji: "⚓",
+    title: "Liman, kale, Bellapais ve gece casino",
     time: "Tam gün",
+    drive: "Esentepe → Girne ≈ 20 dk",
     plan: [
-      "Sabah Girne Limanı'na geç",
-      "Girne Kalesi ve Batık Gemi Müzesi gez",
-      "Öğlen liman çevresinde yemek",
-      "Öğleden sonra Bellapais Manastırı'na çık",
-      "Akşam şık bir yemek sonrası casino"
+      "Otelde ya da sahilde kahvaltı",
+      "Girne Limanı gezintisi ve tarihi kale turu",
+      "Girne Kalesi içindeki Batık Gemi Müzesi'ni gez",
+      "Limanda Grida'da taze balık öğle yemeği",
+      "Bellapais Manastırı — dağdan panoramik manzara",
+      "Otele dön, dinlen, hazırlan",
+      "Akşam Lord's Palace'ta yemek + casino"
     ],
     food: [
-      { name: "Grida Balık", map: "https://www.google.com/maps/search/?api=1&query=Grida+Balik+Kyrenia" },
-      { name: "Niazi's Restaurant", map: "https://www.google.com/maps/search/?api=1&query=Niazi%27s+Restaurant+Kyrenia" },
-      { name: "Kybele Restaurant", map: "https://www.google.com/maps/search/?api=1&query=Kybele+Restaurant+Kyrenia+Harbour" }
-    ],
-    casino: [
-      { name: "Lord's Palace", map: "https://www.google.com/maps/search/?api=1&query=Lord%27s+Palace+Hotel+Spa+Casino+Kyrenia" },
-      { name: "Merit Royal", map: "https://www.google.com/maps/search/?api=1&query=Merit+Royal+Hotel+Casino+Spa+Kyrenia" },
-      { name: "Les Ambassadeurs", map: "https://www.google.com/maps/search/?api=1&query=Les+Ambassadeurs+Hotel+Casino+Marina+Kyrenia" }
-    ],
-    notes: "Casino tercihi: Lord's Palace. İlk deneyim için mantıklı seçenek."
-  },
-  {
-    date: "21 Mart Cuma",
-    badge: "Kapalı Maraş",
-    title: "Gazimağusa ve Kapalı Maraş günü",
-    time: "Tam gün",
-    plan: [
-      "Sabah erken Esentepe/Girne tarafından Gazimağusa'ya hareket",
-      "Kapalı Maraş yürüyüşü ve sahil tarafı",
-      "Lala Mustafa Paşa Camii ve sur içi gezisi",
-      "Vakit kalırsa Othello Kalesi",
-      "Akşam üstü Girne tarafına dönüş"
-    ],
-    food: [
-      { name: "Petek Pastanesi", map: "https://www.google.com/maps/search/?api=1&query=Petek+Pastanesi+Famagusta" },
-      { name: "Ginkgo Restaurant", map: "https://www.google.com/maps/search/?api=1&query=Ginkgo+Restaurant+Famagusta" }
+      { name: "Grida Balık ⭐", map: "https://www.google.com/maps/place/Grida+Restaurant/@35.3399,33.3181,17z" },
+      { name: "Niazi's Restaurant ⭐", map: "https://www.google.com/maps/search/?api=1&query=Niazis+Restaurant+Kyrenia+Cyprus" },
+      { name: "Kybele Restaurant", map: "https://www.google.com/maps/place/Kybele+Restaurant/@35.3401,33.3178,17z" },
+      { name: "Jashan (Hint mutfağı)", map: "https://www.google.com/maps/search/?api=1&query=Jashan+Indian+Restaurant+Kyrenia" }
     ],
     places: [
-      { name: "Kapalı Maraş", map: "https://www.google.com/maps/search/?api=1&query=Varosha+Famagusta" },
-      { name: "Lala Mustafa Paşa Camii", map: "https://www.google.com/maps/search/?api=1&query=Lala+Mustafa+Pasha+Mosque+Famagusta" },
-      { name: "Othello Kalesi", map: "https://www.google.com/maps/search/?api=1&query=Othello+Castle+Famagusta" }
+      { name: "Girne Limanı", map: "https://www.google.com/maps/place/Kyrenia+Harbour/@35.3403,33.3175,17z" },
+      { name: "Girne Kalesi + Batık Gemi", map: "https://www.google.com/maps/place/Kyrenia+Castle/@35.3408,33.3185,17z" },
+      { name: "Bellapais Manastırı", map: "https://www.google.com/maps/place/Bellapais+Abbey/@35.3086,33.3530,17z" }
     ],
-    notes: "Bu günün yıldızı Kapalı Maraş. Fotoğraf için en güçlü gün."
+    casino: [
+      { name: "Lord's Palace ✅ Önerilen", map: "https://www.google.com/maps/search/?api=1&query=Lords+Palace+Hotel+Casino+Kyrenia+Cyprus" },
+      { name: "Merit Royal Casino", map: "https://www.google.com/maps/search/?api=1&query=Merit+Royal+Hotel+Casino+Kyrenia" },
+      { name: "Les Ambassadeurs", map: "https://www.google.com/maps/search/?api=1&query=Les+Ambassadeurs+Casino+Kyrenia" }
+    ],
+    notes: "Casino için kimlik/pasaport zorunlu. Lord's Palace önerilen seçenek — atmosfer iyi.",
+    tip: "Bellapais için en güzel ışık 15:00-17:00 arası. Öğleden sonraya planla.",
+    accent: "#0ea5e9"
   },
   {
-    date: "22 Mart Cumartesi",
-    badge: "Dönüş Günü",
-    title: "Sakin sabah, kahvaltı ve alışveriş",
-    time: "16:30 dönüş öncesi",
+    id: 2,
+    date: "21 Mart Cuma",
+    short: "21 Mar",
+    badge: "Kapalı Maraş",
+    emoji: "🏛️",
+    title: "Gazimağusa ve hayalet şehir Maraş",
+    time: "Tam gün",
+    drive: "Esentepe → Gazimağusa ≈ 1s 20 dk",
     plan: [
-      "Sabah deniz kenarında yavaş kahvaltı",
-      "Girne tarafında son kısa gezinti",
-      "Hediyelik ve lokal ürün alışverişi",
-      "Havalimanına zamanlı geçiş"
+      "Sabah 08:30 erkenden yola çık",
+      "Kapalı Maraş (Varosha) — terk edilmiş şehir yürüyüşü",
+      "Sahil tarafını gez, yıkık binaları fotoğrafla",
+      "Lala Mustafa Paşa Camii ve Venedik surları",
+      "Petek Pastanesi'nde kahve ve tatlı molası",
+      "Othello Kalesi — vakit kalırsa 30 dakika yeter",
+      "Dönüşte Girne'de Niazi's'te akşam yemeği"
     ],
     food: [
-      { name: "TARO Garden Cafe", map: "https://www.google.com/maps/search/?api=1&query=TARO+Garden+Cafe+Esentepe+Cyprus" }
+      { name: "Petek Pastanesi ⭐", map: "https://www.google.com/maps/search/?api=1&query=Petek+Patisserie+Famagusta+Cyprus" },
+      { name: "Ginkgo Restaurant", map: "https://www.google.com/maps/search/?api=1&query=Ginkgo+Restaurant+Famagusta+Cyprus" },
+      { name: "Niazi's (dönüşte) ⭐", map: "https://www.google.com/maps/search/?api=1&query=Niazis+Restaurant+Kyrenia+Cyprus" }
+    ],
+    places: [
+      { name: "Kapalı Maraş (Varosha)", map: "https://www.google.com/maps/place/Varosha/@35.1203,33.9497,15z" },
+      { name: "Lala Mustafa Paşa Camii", map: "https://www.google.com/maps/place/Lala+Mustafa+Pasha+Mosque/@35.1247,33.9395,17z" },
+      { name: "Othello Kalesi", map: "https://www.google.com/maps/place/Othello+Castle/@35.1265,33.9422,17z" },
+      { name: "Gazimağusa Surları", map: "https://www.google.com/maps/place/Famagusta+Walls/@35.1264,33.9400,16z" }
+    ],
+    notes: "Bu günün yıldızı Kapalı Maraş. Atmosfer gerçekten tuhaf ve etkileyici.",
+    tip: "Askeri bölge sınırlarına dikkat et. Fotoğraf çekimine izin var.",
+    accent: "#f59e0b"
+  },
+  {
+    id: 3,
+    date: "22 Mart Cumartesi",
+    short: "22 Mar",
+    badge: "Dönüş Günü",
+    emoji: "🌅",
+    title: "Brunch, kıyı ve uçuş",
+    time: "16:30 uçuş",
+    drive: "Esentepe → Ercan ≈ 40 dk",
+    plan: [
+      "TARO Garden Cafe'de sahil brunch'ı",
+      "Kısa sahil yürüyüşü, son Esentepe anı",
+      "Girne Limanı'nda hediyelik alışveriş",
+      "Alagadi Kaplumbağa Plajı — vakit varsa kısa uğrak",
+      "Otelden check-out (12:00'den önce)",
+      "13:30'da Ercan Havalimanı'na hareket",
+      "16:30 uçuş 👋"
+    ],
+    food: [
+      { name: "TARO Garden Cafe ⭐", map: "https://www.google.com/maps/search/?api=1&query=TARO+Garden+Cafe+Esentepe+Cyprus" },
+      { name: "Camelot Beach Bar", map: "https://www.google.com/maps/search/?api=1&query=Camelot+Beach+Kyrenia+Cyprus" }
+    ],
+    places: [
+      { name: "Alagadi Kaplumbağa Plajı 🐢", map: "https://www.google.com/maps/place/Alagadi+Beach/@35.3680,33.3940,15z" },
+      { name: "Kyrenia Harbour", map: "https://www.google.com/maps/place/Kyrenia+Harbour/@35.3403,33.3175,17z" }
     ],
     shopping: [
-      { name: "Kyrenia Harbour shops", map: "https://www.google.com/maps/search/?api=1&query=Kyrenia+Harbour+Cyprus" },
-      { name: "Arasta Çarşısı (vakit kalırsa Lefkoşa)", map: "https://www.google.com/maps/search/?api=1&query=Arasta+Carsisi+Nicosia" }
+      { name: "Girne Liman Dükkanları", map: "https://www.google.com/maps/place/Kyrenia+Harbour/@35.3403,33.3175,17z" },
+      { name: "Arasta Çarşısı (Lefkoşa)", map: "https://www.google.com/maps/search/?api=1&query=Arasta+Bazaar+Nicosia+Cyprus" }
     ],
-    notes: "Dönüş günü fazla sıkıştırma yapma."
+    notes: "Dönüş günü tempo düşür. TARO'da sakin bir brunch, kısa gezinti yeterli.",
+    tip: "Havalimanına uluslararası uçuş için en az 2 saat önce git.",
+    accent: "#10b981"
   }
 ];
 
-const highlights = [
-  { label: "Konaklama", value: "Girne Esentepe, deniz kenarı" },
-  { label: "Ulaşım", value: "Kiralık araç hazır" },
-  { label: "Mutlaka", value: "1 casino + Kapalı Maraş" },
-  { label: "Yemek Odağı", value: "Balık, Kıbrıs kebabı, brunch" }
+const mapStops = [
+  { name: "Ercan Havalimanı", map: "https://www.google.com/maps/place/Ercan+Airport/@35.1547,33.4952,14z", leg: "Başlangıç" },
+  { name: "Esentepe Oteli", map: "https://www.google.com/maps/search/?api=1&query=Esentepe+Cyprus", leg: "≈ 40 dk" },
+  { name: "Girne Limanı", map: "https://www.google.com/maps/place/Kyrenia+Harbour/@35.3403,33.3175,17z", leg: "≈ 20 dk" },
+  { name: "Bellapais Manastırı", map: "https://www.google.com/maps/place/Bellapais+Abbey/@35.3086,33.3530,17z", leg: "≈ 15 dk" },
+  { name: "Lord's Palace Casino", map: "https://www.google.com/maps/search/?api=1&query=Lords+Palace+Hotel+Casino+Kyrenia", leg: "≈ 10 dk" },
+  { name: "Gazimağusa / Maraş", map: "https://www.google.com/maps/place/Famagusta/@35.1264,33.9412,14z", leg: "≈ 1s 20 dk" },
+  { name: "Alagadi Turtle Beach", map: "https://www.google.com/maps/place/Alagadi+Beach/@35.3680,33.3940,15z", leg: "≈ 1s 10 dk" }
+];
+
+const weather = [
+  { label: "Gündüz", value: "17–19°C", icon: "☀️" },
+  { label: "Gece", value: "11–13°C", icon: "🌙" },
+  { label: "Deniz", value: "18°C", icon: "🌊" },
+  { label: "Hava", value: "Güneşli, serin", icon: "⛅" }
+];
+
+const budget = [
+  { item: "Kiralık araç (4 gün)", min: 80, max: 120, icon: "🚗" },
+  { item: "Konaklama (3 gece)", min: 150, max: 300, icon: "🏨" },
+  { item: "Yemek & içki", min: 120, max: 200, icon: "🍽️" },
+  { item: "Casino bütçesi", min: 50, max: 200, icon: "🎰" },
+  { item: "Müze & girişler", min: 15, max: 30, icon: "🎟️" },
+  { item: "Alışveriş", min: 30, max: 100, icon: "🛍️" }
 ];
 
 const essentials = [
-  "Casino için pasaport/kimlik yanında olsun",
-  "Kapalı Maraş günü rahat ayakkabı giy",
-  "Girne merkezde park için biraz pay bırak",
-  "Dönüş günü havalimanı sürüş süresine tampon ekle",
-  "Akşam yemekleri için rezervasyon iyi fikir"
+  { icon: "🪪", text: "Casino için pasaport veya kimlik şart" },
+  { icon: "👟", text: "Kapalı Maraş için rahat yürüyüş ayakkabısı" },
+  { icon: "🅿️", text: "Girne merkezde park için sabırlı ol" },
+  { icon: "⏱️", text: "Havalimanına uluslararası için 2 saat erken git" },
+  { icon: "📅", text: "Akşam yemekleri için rezervasyon yap" },
+  { icon: "💵", text: "Nakit TRY bulundur — kart her yerde geçmez" },
+  { icon: "📶", text: "Türk operatörlerin roaming'i KKTC'de çalışır" },
+  { icon: "🧥", text: "Mart ortası ~17°C, ince bir mont al" }
 ];
 
-const mapStops = [
-  { name: "Esentepe", map: "https://www.google.com/maps/search/?api=1&query=Esentepe+Cyprus" },
-  { name: "Girne Limanı", map: "https://www.google.com/maps/search/?api=1&query=Kyrenia+Harbour+Cyprus" },
-  { name: "Bellapais", map: "https://www.google.com/maps/search/?api=1&query=Bellapais+Abbey+Cyprus" },
-  { name: "Lord's Palace Casino", map: "https://www.google.com/maps/search/?api=1&query=Lord%27s+Palace+Hotel+Spa+Casino+Kyrenia" },
-  { name: "Kapalı Maraş", map: "https://www.google.com/maps/search/?api=1&query=Varosha+Famagusta" },
-  { name: "Gazimağusa", map: "https://www.google.com/maps/search/?api=1&query=Famagusta+Cyprus" },
-  { name: "Lefkoşa Arasta (opsiyonel)", map: "https://www.google.com/maps/search/?api=1&query=Arasta+Carsisi+Nicosia" }
-];
+// ─── COMPONENTS ─────────────────────────────────────────────────────────────
+
+function Countdown() {
+  const [diff, setDiff] = useState(null);
+
+  useEffect(() => {
+    function calc() {
+      const now = new Date();
+      const delta = TRIP_START - now;
+      if (delta <= 0) return setDiff({ gone: true });
+      const days = Math.floor(delta / 86400000);
+      const hours = Math.floor((delta % 86400000) / 3600000);
+      const mins = Math.floor((delta % 3600000) / 60000);
+      setDiff({ days, hours, mins });
+    }
+    calc();
+    const id = setInterval(calc, 30000);
+    return () => clearInterval(id);
+  }, []);
+
+  if (!diff) return null;
+  if (diff.gone) return <div className="countdown"><span className="cd-label">✈️ Uçuş zamanı!</span></div>;
+
+  return (
+    <div className="countdown">
+      <span className="cd-label">Uçuşa kalan:</span>
+      <span className="cd-unit"><strong>{diff.days}</strong><small>gün</small></span>
+      <span className="cd-sep">:</span>
+      <span className="cd-unit"><strong>{diff.hours}</strong><small>saat</small></span>
+      <span className="cd-sep">:</span>
+      <span className="cd-unit"><strong>{diff.mins}</strong><small>dk</small></span>
+    </div>
+  );
+}
 
 function LinkChip({ item, tone = "" }) {
   return (
     <a href={item.map} target="_blank" rel="noreferrer" className={`chip ${tone}`}>
-      {item.name}
+      {item.name} <span className="chip-icon">↗</span>
     </a>
   );
 }
 
+function DayCard({ day }) {
+  return (
+    <div className="day-card card" style={{ "--accent": day.accent }}>
+      <div className="day-header">
+        <div>
+          <span className="badge" style={{ background: day.accent }}>{day.badge}</span>
+          <h2>{day.emoji} {day.date}</h2>
+          <p className="muted">{day.title}</p>
+        </div>
+        <div className="day-meta">
+          <div className="time-pill">{day.time}</div>
+          {day.drive && <div className="drive-pill">🚗 {day.drive}</div>}
+        </div>
+      </div>
+
+      <div className="day-grid">
+        <div className="subcard">
+          <h3>📋 Gün Planı</h3>
+          <ul className="plan-list">
+            {day.plan.map((item, i) => (
+              <li key={i}>
+                <span className="step" style={{ background: day.accent }}>{i + 1}</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="stack">
+          <div className="subcard">
+            <h3>🍽️ Yeme İçme</h3>
+            <div className="chip-wrap">
+              {day.food?.map((p) => <LinkChip key={p.name} item={p} />)}
+            </div>
+          </div>
+
+          {day.places && (
+            <div className="subcard">
+              <h3>📍 Gezi Noktaları</h3>
+              <div className="chip-wrap">
+                {day.places.map((p) => <LinkChip key={p.name} item={p} tone="chip-blue" />)}
+              </div>
+            </div>
+          )}
+
+          {day.casino && (
+            <div className="subcard">
+              <h3>🎰 Casino Seçenekleri</h3>
+              <div className="chip-wrap">
+                {day.casino.map((p) => <LinkChip key={p.name} item={p} tone="chip-gold" />)}
+              </div>
+            </div>
+          )}
+
+          {day.shopping && (
+            <div className="subcard">
+              <h3>🛍️ Alışveriş</h3>
+              <div className="chip-wrap">
+                {day.shopping.map((p) => <LinkChip key={p.name} item={p} tone="chip-green" />)}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="day-footer">
+        <div className="note-box">
+          <strong>Not:</strong> {day.notes}
+        </div>
+        <div className="tip-box">
+          💡 {day.tip}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── APP ─────────────────────────────────────────────────────────────────────
+
 export default function App() {
+  const [activeDay, setActiveDay] = useState(0);
+  const totalMin = budget.reduce((s, b) => s + b.min, 0);
+  const totalMax = budget.reduce((s, b) => s + b.max, 0);
+
   return (
     <div className="page">
       <div className="container">
+
+        {/* HERO */}
         <section className="hero card">
           <div className="hero-top">
-            <div>
+            <div className="hero-text-block">
               <p className="eyebrow">KKTC Gezi Dashboard</p>
               <h1>19–22 Mart KKTC Planı</h1>
-              <p className="hero-text">
-                Esentepe merkezli, araçlı, kısa ama dolu bir rota. Konumlar tıklanabilir;
-                Google Maps direkt açılır. Ufak dijital pusula numarası.
+              <p className="hero-sub">
+                Esentepe merkezli, araçlı, kısa ama dolu rota.
+                Tüm konumlar tıklanabilir — Google Maps direkt açılır.
               </p>
             </div>
-            <div className="flight-box">
-              <div className="flight-label">Uçuş Aralığı</div>
-              <div className="flight-time">19 Mart 23:00 → 22 Mart 16:30</div>
+            <div className="hero-right">
+              <div className="flight-box">
+                <div className="flight-label">✈️ Uçuş Aralığı</div>
+                <div className="flight-time">19 Mart 23:00</div>
+                <div className="flight-arrow">↓</div>
+                <div className="flight-time">22 Mart 16:30</div>
+              </div>
+              <Countdown />
             </div>
           </div>
 
           <div className="highlight-grid">
-            {highlights.map((item) => (
-              <div key={item.label} className="mini-card">
-                <div className="mini-label">{item.label}</div>
-                <div className="mini-value">{item.value}</div>
-              </div>
-            ))}
+            <div className="mini-card"><div className="mini-label">📍 Konaklama</div><div className="mini-value">Girne Esentepe, deniz kenarı</div></div>
+            <div className="mini-card"><div className="mini-label">🚗 Ulaşım</div><div className="mini-value">Kiralık araç (Ercan'dan)</div></div>
+            <div className="mini-card"><div className="mini-label">🎰 Mutlaka</div><div className="mini-value">Casino + Kapalı Maraş</div></div>
+            <div className="mini-card"><div className="mini-label">🍽️ Yemek</div><div className="mini-value">Balık, Kıbrıs kebabı, brunch</div></div>
           </div>
         </section>
 
+        {/* GÜN SEKMELERİ */}
+        <div className="tab-bar">
+          {tripDays.map((day) => (
+            <button
+              key={day.id}
+              className={`tab-btn ${activeDay === day.id ? "tab-active" : ""}`}
+              style={activeDay === day.id ? { "--tab-color": day.accent, borderColor: day.accent, color: day.accent } : {}}
+              onClick={() => setActiveDay(day.id)}
+            >
+              <span className="tab-emoji">{day.emoji}</span>
+              <span className="tab-date">{day.short}</span>
+              <span className="tab-badge">{day.badge}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* İÇERİK */}
         <div className="layout">
           <main className="main-column">
-            {tripDays.map((day) => (
-              <section key={day.date} className="card day-card">
-                <div className="day-header">
-                  <div>
-                    <span className="badge">{day.badge}</span>
-                    <h2>{day.date}</h2>
-                    <p className="muted">{day.title}</p>
-                  </div>
-                  <div className="time-pill">{day.time}</div>
-                </div>
-
-                <div className="day-grid">
-                  <div className="subcard">
-                    <h3>Gün Planı</h3>
-                    <ul className="plan-list">
-                      {day.plan.map((item, i) => (
-                        <li key={i}>
-                          <span className="step">{i + 1}</span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="stack">
-                    <div className="subcard">
-                      <h3>Yeme İçme</h3>
-                      <div className="chip-wrap">
-                        {day.food?.map((place) => (
-                          <LinkChip key={place.name} item={place} />
-                        ))}
-                      </div>
-                    </div>
-
-                    {day.casino && (
-                      <div className="subcard">
-                        <h3>Casino Seçenekleri</h3>
-                        <div className="chip-wrap">
-                          {day.casino.map((place) => (
-                            <LinkChip key={place.name} item={place} tone="chip-gold" />
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {day.places && (
-                      <div className="subcard">
-                        <h3>Gezi Noktaları</h3>
-                        <div className="chip-wrap">
-                          {day.places.map((place) => (
-                            <LinkChip key={place.name} item={place} tone="chip-blue" />
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {day.shopping && (
-                      <div className="subcard">
-                        <h3>Alışveriş</h3>
-                        <div className="chip-wrap">
-                          {day.shopping.map((place) => (
-                            <LinkChip key={place.name} item={place} tone="chip-green" />
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="note-box">
-                  <strong>Not:</strong> {day.notes}
-                </div>
-              </section>
-            ))}
+            <DayCard day={tripDays[activeDay]} />
           </main>
 
           <aside className="side-column">
-            <section className="card">
-              <h2>Rota Özeti</h2>
+
+            {/* ROTA */}
+            <section className="card side-card">
+              <h2>🗺️ Rota ve Sürüşler</h2>
               <div className="route-list">
-                {mapStops.map((stop, index) => (
-                  <a
-                    key={stop.name}
-                    href={stop.map}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="route-item route-link"
-                  >
-                    <span className="route-index">{index + 1}</span>
-                    <span>{stop.name}</span>
+                {mapStops.map((stop, i) => (
+                  <a key={stop.name} href={stop.map} target="_blank" rel="noreferrer" className="route-item">
+                    <div className="route-left">
+                      <span className="route-index">{i + 1}</span>
+                      <span className="route-name">{stop.name}</span>
+                    </div>
+                    <span className="route-leg">{stop.leg}</span>
                   </a>
                 ))}
               </div>
             </section>
 
-            <section className="card">
-              <h2>Bu Gezinin En İyi 5 Vuruşu</h2>
-              <div className="best-list">
-                <div className="best-item"><strong>1.</strong> Lord's Palace'ta casino gecesi</div>
-                <div className="best-item"><strong>2.</strong> Kapalı Maraş yürüyüşü</div>
-                <div className="best-item"><strong>3.</strong> Bellapais manzarası</div>
-                <div className="best-item"><strong>4.</strong> Girne Limanı + kale kombosu</div>
-                <div className="best-item"><strong>5.</strong> Grida / Niazi's yemek hattı</div>
+            {/* HAVA DURUMU */}
+            <section className="card side-card">
+              <h2>🌤️ Mart Hava Durumu</h2>
+              <p className="card-sub">KKTC Mart ortası tahmini</p>
+              <div className="weather-grid">
+                {weather.map((w) => (
+                  <div key={w.label} className="weather-item">
+                    <span className="weather-icon">{w.icon}</span>
+                    <span className="weather-value">{w.value}</span>
+                    <span className="weather-label">{w.label}</span>
+                  </div>
+                ))}
               </div>
             </section>
 
-            <section className="card">
-              <h2>Pratik Notlar</h2>
+            {/* BÜTÇE */}
+            <section className="card side-card">
+              <h2>💰 Tahmini Bütçe</h2>
+              <p className="card-sub">Kişi başı yaklaşık maliyet (€)</p>
+              <div className="budget-list">
+                {budget.map((b) => (
+                  <div key={b.item} className="budget-item">
+                    <span className="budget-icon">{b.icon}</span>
+                    <span className="budget-name">{b.item}</span>
+                    <span className="budget-range">€{b.min}–{b.max}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="budget-total">
+                <span>Toplam Tahmini</span>
+                <span className="budget-total-value">€{totalMin}–{totalMax}</span>
+              </div>
+            </section>
+
+            {/* PRATİK NOTLAR */}
+            <section className="card side-card">
+              <h2>📌 Pratik Notlar</h2>
               <ul className="tips-list">
-                {essentials.map((item) => (
-                  <li key={item}>{item}</li>
+                {essentials.map((e) => (
+                  <li key={e.text} className="tip-item">
+                    <span className="tip-icon">{e.icon}</span>
+                    <span>{e.text}</span>
+                  </li>
                 ))}
               </ul>
             </section>
+
           </aside>
         </div>
+
       </div>
     </div>
   );
