@@ -70,7 +70,11 @@ const tripDays = [
       { name: "Les Ambassadeurs", map: "https://www.google.com/maps/search/?api=1&query=Les+Ambassadeurs+Casino+Kyrenia" }
     ],
     shopping: [
-      { name: "IQOS Store Girne 🚬", map: "https://www.google.com/maps/search/?api=1&query=IQOS+Store+Kyrenia+Cyprus" }
+      { name: "IQOS Store Girne 🚬", map: "https://www.google.com/maps/search/?api=1&query=IQOS+Store+Kyrenia+Cyprus" },
+      { name: "Merit Royal Boutique 💎", map: "https://www.google.com/maps/search/?api=1&query=Merit+Royal+Hotel+Kyrenia+Cyprus", note: "Otel içi lüks mağaza" },
+      { name: "Altın & Mücevher Çarşısı ✨", map: "https://www.google.com/maps/search/?api=1&query=Gold+Jewellery+Shop+Kyrenia+Cyprus", note: "KKTC'de altın çok uygun" },
+      { name: "Harbour Boutiques 👜", map: "https://www.google.com/maps/search/?api=1&query=Boutique+Kyrenia+Harbour+Cyprus", note: "Liman çevresindeki butikler" },
+      { name: "Lord's Palace Shops 🛍️", map: "https://www.google.com/maps/search/?api=1&query=Lords+Palace+Hotel+Casino+Kyrenia+Cyprus", note: "Casino oteli içi alışveriş" }
     ],
     notes: "Casino için kimlik/pasaport zorunlu. Lord's Palace önerilen seçenek — atmosfer iyi.",
     tip: "Bellapais için en güzel ışık 15:00-17:00 arası. Grida ve Kybele'nin her ikisinde de liman manzarası var.",
@@ -112,10 +116,12 @@ const tripDays = [
       { name: "Ledra Caddesi", map: "https://www.google.com/maps/search/?api=1&query=Ledra+Street+Nicosia+Cyprus" }
     ],
     shopping: [
-      { name: "Arasta Çarşısı 🛍️", map: "https://www.google.com/maps/search/?api=1&query=Arasta+Bazaar+Nicosia+Cyprus" },
-      { name: "Bandabuliya (Kapalı Pazar)", map: "https://www.google.com/maps/search/?api=1&query=Bandabuliya+Covered+Market+Nicosia" },
-      { name: "Ledra Caddesi Dükkanları", map: "https://www.google.com/maps/search/?api=1&query=Ledra+Street+Shops+Nicosia+Cyprus" },
-      { name: "Mahmut Paşa Çarşısı", map: "https://www.google.com/maps/search/?api=1&query=Mahmut+Pasha+Bazaar+Nicosia+Cyprus" }
+      { name: "Bedestan Çarşısı 💎", map: "https://www.google.com/maps/search/?api=1&query=Bedestan+Nicosia+Cyprus", note: "Bizans kilisesinden dönüşüm — lüks butikler" },
+      { name: "Arasta Çarşısı Kuyumcuları ✨", map: "https://www.google.com/maps/search/?api=1&query=Arasta+Bazaar+Nicosia+Cyprus", note: "Altın & gümüş takı — KKTC'nin en iyisi" },
+      { name: "Lefkoşa Kuyumcu Sokağı 💍", map: "https://www.google.com/maps/search/?api=1&query=Jewellery+Street+Nicosia+North+Cyprus", note: "El işi Kıbrıs gümüşü" },
+      { name: "Selimiye Çevresi Butikler 👔", map: "https://www.google.com/maps/search/?api=1&query=Boutique+Old+City+Nicosia+Cyprus", note: "Tarihi çarşı çevresindeki tasarım dükkanları" },
+      { name: "Bandabuliya Delicatessen 🧀", map: "https://www.google.com/maps/search/?api=1&query=Bandabuliya+Nicosia+Cyprus", note: "Premium Kıbrıs ürünleri: hellim, şarap, zeytinyağı" },
+      { name: "Ledra Caddesi Flagship'ler 🏬", map: "https://www.google.com/maps/search/?api=1&query=Ledra+Street+Nicosia+Cyprus", note: "Zara, Mango, yerel tasarımcılar" }
     ],
     notes: "İki şehir bir günde: Maraş'ta fotoğraf, Lefkoşa'da alışveriş ve akşam yemeği. Gazimağusa'yı kısa tut, Lefkoşa'ya öğlen gel.",
     tip: "Ledra Palace sınır kapısında pasaport/kimlik şart — sınırı geçmesen de park alanı ilginç.",
