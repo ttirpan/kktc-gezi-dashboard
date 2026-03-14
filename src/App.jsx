@@ -39,32 +39,41 @@ const tripDays = [
     time: "Tam gün",
     drive: "Esentepe → Girne ≈ 20 dk",
     plan: [
-      "Otelde ya da sahilde kahvaltı",
+      "Korineum Golf Cafe'de deniz manzaralı kahvaltı",
       "Girne Limanı gezintisi ve tarihi kale turu",
       "Girne Kalesi içindeki Batık Gemi Müzesi'ni gez",
+      "IQOS Store'a uğra (Girne merkez)",
       "Limanda Grida'da taze balık öğle yemeği",
       "Bellapais Manastırı — dağdan panoramik manzara",
       "Otele dön, dinlen, hazırlan",
       "Akşam Lord's Palace'ta yemek + casino"
     ],
+    breakfast: [
+      { name: "Korineum Golf Cafe 🌊", map: "https://www.google.com/maps/search/?api=1&query=Korineum+Golf+Club+Esentepe+Cyprus", note: "Deniz manzarası" },
+      { name: "Harbour Club ⚓", map: "https://www.google.com/maps/search/?api=1&query=Harbour+Club+Kyrenia+Cyprus", note: "Liman manzarası" },
+      { name: "TARO Garden Cafe 🌿", map: "https://www.google.com/maps/search/?api=1&query=TARO+Garden+Cafe+Esentepe+Cyprus", note: "Sahil kenarı" }
+    ],
     food: [
-      { name: "Grida Balık ⭐", map: "https://www.google.com/maps/place/Grida+Restaurant/@35.3399,33.3181,17z" },
-      { name: "Niazi's Restaurant ⭐", map: "https://www.google.com/maps/search/?api=1&query=Niazis+Restaurant+Kyrenia+Cyprus" },
-      { name: "Kybele Restaurant", map: "https://www.google.com/maps/place/Kybele+Restaurant/@35.3401,33.3178,17z" },
-      { name: "Jashan (Hint mutfağı)", map: "https://www.google.com/maps/search/?api=1&query=Jashan+Indian+Restaurant+Kyrenia" }
+      { name: "Grida Balık ⭐ 🌊", map: "https://www.google.com/maps/place/Grida+Restaurant/@35.3399,33.3181,17z", note: "Liman manzarası" },
+      { name: "Kybele Restaurant 🌊", map: "https://www.google.com/maps/place/Kybele+Restaurant/@35.3401,33.3178,17z", note: "Liman üstü teras" },
+      { name: "Niazi's Restaurant ⭐", map: "https://www.google.com/maps/search/?api=1&query=Niazis+Restaurant+Kyrenia+Cyprus", note: "Klasik Kıbrıs" },
+      { name: "Jashan (Hint mutfağı)", map: "https://www.google.com/maps/search/?api=1&query=Jashan+Indian+Restaurant+Kyrenia", note: "Farklı seçenek" }
     ],
     places: [
       { name: "Girne Limanı", map: "https://www.google.com/maps/place/Kyrenia+Harbour/@35.3403,33.3175,17z" },
       { name: "Girne Kalesi + Batık Gemi", map: "https://www.google.com/maps/place/Kyrenia+Castle/@35.3408,33.3185,17z" },
-      { name: "Bellapais Manastırı", map: "https://www.google.com/maps/place/Bellapais+Abbey/@35.3086,33.3530,17z" }
+      { name: "Bellapais Manastırı 🏔️", map: "https://www.google.com/maps/place/Bellapais+Abbey/@35.3086,33.3530,17z" }
     ],
     casino: [
       { name: "Lord's Palace ✅ Önerilen", map: "https://www.google.com/maps/search/?api=1&query=Lords+Palace+Hotel+Casino+Kyrenia+Cyprus" },
       { name: "Merit Royal Casino", map: "https://www.google.com/maps/search/?api=1&query=Merit+Royal+Hotel+Casino+Kyrenia" },
       { name: "Les Ambassadeurs", map: "https://www.google.com/maps/search/?api=1&query=Les+Ambassadeurs+Casino+Kyrenia" }
     ],
+    shopping: [
+      { name: "IQOS Store Girne 🚬", map: "https://www.google.com/maps/search/?api=1&query=IQOS+Store+Kyrenia+Cyprus" }
+    ],
     notes: "Casino için kimlik/pasaport zorunlu. Lord's Palace önerilen seçenek — atmosfer iyi.",
-    tip: "Bellapais için en güzel ışık 15:00-17:00 arası. Öğleden sonraya planla.",
+    tip: "Bellapais için en güzel ışık 15:00-17:00 arası. Grida ve Kybele'nin her ikisinde de liman manzarası var.",
     accent: "#0ea5e9"
   },
   {
@@ -75,29 +84,41 @@ const tripDays = [
     emoji: "🏛️",
     title: "Gazimağusa ve hayalet şehir Maraş",
     time: "Tam gün",
-    drive: "Esentepe → Gazimağusa ≈ 1s 20 dk",
+    drive: "Esentepe → Gazimağusa ≈ 1s 20dk → Lefkoşa ≈ 45dk → Girne ≈ 50dk",
     plan: [
       "Sabah 08:30 erkenden yola çık",
       "Kapalı Maraş (Varosha) — terk edilmiş şehir yürüyüşü",
       "Sahil tarafını gez, yıkık binaları fotoğrafla",
-      "Lala Mustafa Paşa Camii ve Venedik surları",
-      "Petek Pastanesi'nde kahve ve tatlı molası",
-      "Othello Kalesi — vakit kalırsa 30 dakika yeter",
-      "Dönüşte Girne'de Niazi's'te akşam yemeği"
+      "Gazimağusa: Lala Mustafa Paşa Camii + Petek Pastanesi molası (kısa tut)",
+      "Lefkoşa'ya geç — ≈ 45 dakika sürüş",
+      "Ledra Palace Sınır Kapısı ve tampon bölge parkı",
+      "Arasta Çarşısı ve Bandabuliya'da alışveriş gezisi",
+      "Eski şehirde akşam yemeği",
+      "Girne'ye dönüş ≈ 50 dk"
     ],
     food: [
-      { name: "Petek Pastanesi ⭐", map: "https://www.google.com/maps/search/?api=1&query=Petek+Patisserie+Famagusta+Cyprus" },
-      { name: "Ginkgo Restaurant", map: "https://www.google.com/maps/search/?api=1&query=Ginkgo+Restaurant+Famagusta+Cyprus" },
-      { name: "Niazi's (dönüşte) ⭐", map: "https://www.google.com/maps/search/?api=1&query=Niazis+Restaurant+Kyrenia+Cyprus" }
+      { name: "Petek Pastanesi ⭐", map: "https://www.google.com/maps/search/?api=1&query=Petek+Patisserie+Famagusta+Cyprus", note: "Gazimağusa — börek & tatlı" },
+      { name: "Sabor Restaurant 🍷", map: "https://www.google.com/maps/search/?api=1&query=Sabor+Restaurant+Nicosia+Cyprus", note: "Lefkoşa — tapas & şarap" },
+      { name: "The Brewery 🍺", map: "https://www.google.com/maps/search/?api=1&query=The+Brewery+Nicosia+Cyprus", note: "Lefkoşa — craft bira & meze" },
+      { name: "Bandabuliya Food Hall", map: "https://www.google.com/maps/search/?api=1&query=Bandabuliya+Nicosia+Cyprus", note: "Lefkoşa — tarihi pazar içi" },
+      { name: "Zanettos Taverna ⭐", map: "https://www.google.com/maps/search/?api=1&query=Zanettos+Taverna+Nicosia+Cyprus", note: "Lefkoşa — efsane meze sofrası" }
     ],
     places: [
-      { name: "Kapalı Maraş (Varosha)", map: "https://www.google.com/maps/place/Varosha/@35.1203,33.9497,15z" },
+      { name: "Kapalı Maraş (Varosha) 🏚️", map: "https://www.google.com/maps/place/Varosha/@35.1203,33.9497,15z" },
       { name: "Lala Mustafa Paşa Camii", map: "https://www.google.com/maps/place/Lala+Mustafa+Pasha+Mosque/@35.1247,33.9395,17z" },
-      { name: "Othello Kalesi", map: "https://www.google.com/maps/place/Othello+Castle/@35.1265,33.9422,17z" },
-      { name: "Gazimağusa Surları", map: "https://www.google.com/maps/place/Famagusta+Walls/@35.1264,33.9400,16z" }
+      { name: "Ledra Palace Sınır Kapısı 🛂", map: "https://www.google.com/maps/search/?api=1&query=Ledra+Palace+Crossing+Nicosia+Cyprus" },
+      { name: "BM Tampon Bölge Parkı 🌿", map: "https://www.google.com/maps/search/?api=1&query=UN+Buffer+Zone+Nicosia+Cyprus" },
+      { name: "Selimiye Camii (Lefkoşa)", map: "https://www.google.com/maps/search/?api=1&query=Selimiye+Mosque+Nicosia+Cyprus" },
+      { name: "Ledra Caddesi", map: "https://www.google.com/maps/search/?api=1&query=Ledra+Street+Nicosia+Cyprus" }
     ],
-    notes: "Bu günün yıldızı Kapalı Maraş. Atmosfer gerçekten tuhaf ve etkileyici.",
-    tip: "Askeri bölge sınırlarına dikkat et. Fotoğraf çekimine izin var.",
+    shopping: [
+      { name: "Arasta Çarşısı 🛍️", map: "https://www.google.com/maps/search/?api=1&query=Arasta+Bazaar+Nicosia+Cyprus" },
+      { name: "Bandabuliya (Kapalı Pazar)", map: "https://www.google.com/maps/search/?api=1&query=Bandabuliya+Covered+Market+Nicosia" },
+      { name: "Ledra Caddesi Dükkanları", map: "https://www.google.com/maps/search/?api=1&query=Ledra+Street+Shops+Nicosia+Cyprus" },
+      { name: "Mahmut Paşa Çarşısı", map: "https://www.google.com/maps/search/?api=1&query=Mahmut+Pasha+Bazaar+Nicosia+Cyprus" }
+    ],
+    notes: "İki şehir bir günde: Maraş'ta fotoğraf, Lefkoşa'da alışveriş ve akşam yemeği. Gazimağusa'yı kısa tut, Lefkoşa'ya öğlen gel.",
+    tip: "Ledra Palace sınır kapısında pasaport/kimlik şart — sınırı geçmesen de park alanı ilginç.",
     accent: "#f59e0b"
   },
   {
@@ -245,6 +266,15 @@ function DayCard({ day }) {
         </div>
 
         <div className="stack">
+          {day.breakfast && (
+            <div className="subcard">
+              <h3>☀️ Kahvaltı Seçenekleri</h3>
+              <div className="chip-wrap">
+                {day.breakfast.map((p) => <LinkChip key={p.name} item={p} tone="chip-green" />)}
+              </div>
+            </div>
+          )}
+
           <div className="subcard">
             <h3>🍽️ Yeme İçme</h3>
             <div className="chip-wrap">
