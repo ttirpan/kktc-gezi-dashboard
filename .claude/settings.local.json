@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:chatgpt.com)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(findstr -i \"kktc dashboard\")"
+    ]
+  }
+}
